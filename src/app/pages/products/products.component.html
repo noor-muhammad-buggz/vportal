@@ -1,0 +1,121 @@
+<section class="a_order_section a_section">
+    <div class="a_heading a_bb d-sm-flex justify-content-sm-between align-items-center pt-3">
+        <h3 class="mb-2 mb-md-0">Products</h3>
+        <button class="btn a_m_btn a_right_icon a_green a_plus_icon" type="buttton" routerLink="/pages/products/add">ADD NEW PRODUCT<img alt="" src="assets/images/white-plus-icon.png"></button>
+    </div>
+    <div class="a_o_top">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-lg-4">
+                <div class="a_select mb-3 mb-lg-0">
+                    <select class="form-control" (change)="stockFilterOrder()" [(ngModel)]="this.params.instock">
+                      <option *ngFor="let status of statusList" value="{{status.value}}">{{status.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="a_s_wrapper d-inline-flex align-items-center">
+                    <div class="a_w_label a_blue_label">Include Discontinued</div>
+                    <label class="a_switch a_s_switch">
+                        <input [(ngModel)]="showArchived" value="true" type="checkbox" (ngModelChange)="changeArchived()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group a_o_search d-flex align-items-center ">
+                    <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="this.params.searchText" class="form-control" (keyup.enter)="searchProducts()">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="searchProducts()" type="button"><img alt="search icon" class="a_img" src="assets/images/search-icon.png"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive a_card_table">
+        <table class="table a_m_rows">
+            <thead>
+                <tr>
+                    <th class="" (click)="sortTable('Id')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>Product Id</span>
+                            <div *ngIf="this.params['sort'] == 'Id'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                    <th (click)="sortTable('Name')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>Product Name</span>
+                            <div *ngIf="this.params['sort'] == 'Name'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                    <th (click)="sortTable('LastModified')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>Last Modified</span>
+                            <div *ngIf="this.params['sort'] == 'LastModified'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                    <th>MSRP</th>
+                    <th (click)="sortTable('PurchaseInfoPriceAmount')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>WholeSale</span>
+                            <div *ngIf="this.params['sort'] == 'PurchaseInfoPriceAmount'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                    <th (click)="sortTable('InStock')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>Status</span>
+                            <div *ngIf="this.params['sort'] == 'InStock'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="a_m_rows">
+                <tr *ngFor="let product of products">
+                    <td>
+                        <a class="a_c_pointer" href="javascript:;" (click)="openProductDetailPage(product.Id)">{{ product?.Id }}</a>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td>
+                        <a class="a_c_pointer" href="javascript:;" (click)="openProductDetailPage(product.Id)">{{ product?.Name }}</a>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td><strong class="">{{ product?.AggregateInfo?.LastModifiedDate | date:'MM/dd/y' }}</strong><span class="a_tb_bar"></span></td>
+                    <td><strong>{{ ((product.SalesPrice && product.SalesPrice.Amount)? product?.SalesPrice.Amount : 0) | currency }}</strong><span class="a_tb_bar"></span></td>
+                    <td><strong>{{ ((product.PurchaseInfo && product.PurchaseInfo.Price.Amount)? product.PurchaseInfo.Price.Amount : 0) | currency }}</strong><span class="a_tb_bar"></span></td>
+                    <td>
+                        <!-- <strong>In Stock {{ product?.InStock }}</strong> -->
+                        <div class="a_s_wrapper d-inline-flex align-items-center">
+                            <strong>In Stock</strong>
+                            <label class="a_switch a_s_switch">
+                                <input type="checkbox" [checked]="product?.InStock" [attr.checked]="product?.InStock ? 'checked' : null" [attr.selected]="product?.InStock ? 'selected' : null" (change)="updateProductStockStatus(product,stock.checked)" #stock>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="!products || products && products.length == 0">
+                    <td colspan="8">
+                        No results found
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="8" scope="col"></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="text-right">
+        <button *ngIf="page > 1" class="btn a_blue_btn" (click)="firstSalesProducts()">First</button>
+        <button [disabled]="!continueToken" class="btn a_blue_btn ml-2" (click)="nextSalesProducts()">Next</button>
+    </div>
+</section>
+
+<div *ngIf="globalState.enabledDebug && params" class="row">
+    <div class="col-md-12">
+        <!-- <pre>{{products | json}}</pre> -->
+        <pre>{{params | json}}</pre>
+        <pre>{{options | json}}</pre>
+        <pre>{{ 'continueToken: ' + continueToken  }}</pre>
+    </div>
+</div>

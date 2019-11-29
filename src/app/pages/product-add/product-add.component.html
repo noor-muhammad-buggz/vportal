@@ -1,0 +1,188 @@
+<section class="a_section a_add_product_section">
+    <div class="a_heading a_bb mb-3 mb-md-4">
+        <h3>Add Product</h3>
+    </div>
+
+    <div class="a_ap_content">
+        <div class="row mb-3 mb-md-4">
+            <div class="col-md-3 ">
+                <div class="a_p_profile">
+                    <figure (click)="imageinput.click()">
+                        <img [src]="(productImage)? productImage : 'assets/images/product-icon.png'" alt="product">
+                        <!-- <div class="icon a_close"><i class="nb-close-circled"></i></div> -->
+                        <a class="a_change_picture">Click to Add Photo</a>
+                    </figure>
+                    <input #imageinput id="fileInput" type="file" ng2FileSelect [uploader]="uploader" style="display:none" [accept]="allowedMimeType.toString()" />
+                    <figcaption *ngIf="productForm">Sku {{ productForm.controls['Id'].value }}</figcaption>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="a_p_form a_inline_f">
+                    <form *ngIf="productForm" [formGroup]="productForm">
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Sku:</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" required [formControl]="productForm.controls['Id']" [ngClass]="{'has-error':!productForm.controls['Id'].valid && productForm.controls['Id'].touched}">
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Product Name:</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" required [formControl]="productForm.controls['Name']" [ngClass]="{'has-error':!productForm.controls['Name'].valid && productForm.controls['Name'].touched}">
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Product Description:</label>
+                            <div class="col-md-8">
+                                <!-- <ngx-tiny-mce></ngx-tiny-mce> -->
+                                <div [ngClass]="{'has-error':!productForm.controls['Description'].valid && productForm.controls['Description'].touched}">
+                                    <ckeditor [(ngModel)]="description" [config]="ckEditorConfig" (change)="onDescriptionChange($event)" [ngModelOptions]="{standalone: true}"></ckeditor>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Sales Price:</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" [formControl]="productForm.controls['SalesPrices'].controls[0].controls['Amount']" [ngClass]="{'has-error':!productForm.controls['SalesPrices'].controls[0].controls['Amount'].valid && productForm.controls['SalesPrices'].controls[0].controls['Amount'].touched}">
+                                <div *ngIf="productForm.controls['SalesPrices'].controls[0].controls['Amount'].hasError('pattern') && productForm.controls['SalesPrices'].controls[0].controls['Amount'].touched">
+                                  <span class="text-danger">Only numbers allowed</span>
+                                </div>
+                            </div>
+                            <span class="col-md-4 col-form-label text-left" for="">USD</span>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Wholesale Price:</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" [formControl]="productForm.controls['PurchaseInfo'].controls['Price'].controls['Amount']" [ngClass]="{'has-error':!productForm.controls['PurchaseInfo'].controls['Price'].controls['Amount'].valid && productForm.controls['PurchaseInfo'].controls['Price'].controls['Amount'].touched}">
+                                <div *ngIf="productForm.controls['PurchaseInfo'].controls['Price'].controls['Amount'].hasError('pattern') && productForm.controls['PurchaseInfo'].controls['Price'].controls['Amount'].touched">
+                                    <span class="text-danger">Only numbers allowed</span>
+                                </div>
+                            </div>
+                            <span class="col-md-4 col-form-label text-left" for="">USD</span>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Dose type:</label>
+                            <div class="col-md-4">
+                                <div class="a_select mb-3 mb-lg-0">
+                                    <select class="form-control" [formControl]="productForm.controls['Dosage'].controls['Type']" [ngClass]="{'has-error':!productForm.controls['Dosage'].controls['Type'].valid && productForm.controls['Dosage'].controls['Type'].touched}">
+                                        <option value=""></option>
+                                        <option value="{{dose}}" *ngFor="let dose of doseOptions" >{{dose}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <span class="col-md-4 col-form-label text-left" for=""></span>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Dose Amount:</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" value="" [formControl]="productForm.controls['Dosage'].controls['Amount'].controls['Numerator']" [ngClass]="{'has-error':!productForm.controls['Dosage'].controls['Amount'].controls['Numerator'].valid && productForm.controls['Dosage'].controls['Amount'].controls['Numerator'].touched}">
+                                <div *ngIf="productForm.controls['Dosage'].controls['Amount'].controls['Numerator'].hasError('pattern') && productForm.controls['Dosage'].controls['Amount'].controls['Numerator'].touched">
+                                    <span class="text-danger">Only numbers allowed</span>
+                                </div>
+                            </div>
+                            <span class="col-md-4 col-form-label text-left" for=""></span>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Times per day:</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" value="" [formControl]="productForm.controls['Dosage'].controls['TimesPerDay']" [ngClass]="{'has-error':!productForm.controls['Dosage'].controls['TimesPerDay'].valid && productForm.controls['Dosage'].controls['TimesPerDay'].touched}">
+                                <div *ngIf="productForm.controls['Dosage'].controls['TimesPerDay'].hasError('pattern') && productForm.controls['Dosage'].controls['TimesPerDay'].touched">
+                                    <span class="text-danger">Only numbers allowed</span>
+                                </div>
+                            </div>
+                            <span class="col-md-4 col-form-label text-left" for=""></span>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Weight:</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" value="" [formControl]="productForm.controls['Weight']" [ngClass]="{'has-error':!productForm.controls['Weight'].valid && productForm.controls['Weight'].touched}">
+                                <div *ngIf="productForm.controls['Weight'].hasError('pattern') && productForm.controls['Weight'].touched">
+                                    <span class="text-danger">Only numbers allowed</span>
+                                </div>
+                            </div>
+                            <span class="col-md-4 col-form-label text-left" for="">Ozs</span>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Age - Min / Max:</label>
+                            <div class="col-md-2 mb-2 mb-md-0">
+                                <input class="form-control" type="text" value="" [formControl]="productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MinimumAllowedAge']" [ngClass]="{'has-error':!productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MinimumAllowedAge'].valid && productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MinimumAllowedAge'].touched}">
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" type="text" value="" [formControl]="productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MaximumAllowedAge']" [ngClass]="{'has-error':!productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MaximumAllowedAge'].valid && productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MaximumAllowedAge'].touched}">
+                            </div>
+                            <span class="col-md-4 col-form-label text-left" for=""></span>
+                            <div class="offset-md-4 col-md-4" *ngIf="((productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MinimumAllowedAge'].hasError('pattern') && productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MinimumAllowedAge'].touched) || (productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MaximumAllowedAge'].hasError('pattern') && productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MaximumAllowedAge'].touched))">
+                                <span class="text-danger">Only numbers allowed</span>
+                            </div>
+                            <div class="offset-md-4 col-md-4" *ngIf="productForm.controls['ClientRestrictions'].controls['AgeRestriction'].hasError('invalidAge') && productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MinimumAllowedAge'].touched && productForm.controls['ClientRestrictions'].controls['AgeRestriction'].controls['MaximumAllowedAge'].touched">
+                              <span class="text-danger">Maximum Age cannot be less than Minimum Age</span>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Gender :</label>
+                            <div class="col-md-4">
+                                <div class="a_select mb-3 mb-lg-0">
+                                  <select class="form-control" [formControl]="productForm.controls['ClientRestrictions'].controls['GenderRestriction']" [ngClass]="{'has-error':!productForm.controls['ClientRestrictions'].controls['GenderRestriction'].valid && productForm.controls['ClientRestrictions'].controls['GenderRestriction'].touched}">
+                                      <option value=""></option>
+                                      <option value="NULL">Gender Neutral</option>
+                                      <option value="MalesOnly">Male</option>
+                                      <option value="FemalesOnly">Female</option>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Dimensions:</label>
+                            <div class="col-md-2 mb-2 mb-md-0">
+                                <input class="form-control" type="text" value="" placeholder="D" [formControl]="productForm.controls['Dimensions'].controls['Length']" [ngClass]="{'has-error':!productForm.controls['Dimensions'].controls['Length'].valid && productForm.controls['Dimensions'].controls['Length'].touched}">
+                            </div>
+                            <div class="col-md-2 mb-2 mb-md-0">
+                                <input class="form-control" type="text" value="" placeholder="W" [formControl]="productForm.controls['Dimensions'].controls['Width']" [ngClass]="{'has-error':!productForm.controls['Dimensions'].controls['Width'].valid && productForm.controls['Dimensions'].controls['Width'].touched}">
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" type="text" value="" placeholder="H" [formControl]="productForm.controls['Dimensions'].controls['Height']" [ngClass]="{'has-error':!productForm.controls['Dimensions'].controls['Height'].valid && productForm.controls['Dimensions'].controls['Height'].touched}">
+                            </div>
+                            <span class="col-md-2 col-form-label text-left" for=""> inches</span>
+                            <div class="offset-md-4 col-md-4" *ngIf="((productForm.controls['Dimensions'].controls['Width'].hasError('pattern') && productForm.controls['Dimensions'].controls['Width'].touched) || (productForm.controls['Dimensions'].controls['Height'].hasError('pattern') && productForm.controls['Dimensions'].controls['Height'].touched) || (productForm.controls['Dimensions'].controls['Length'].hasError('pattern') && productForm.controls['Dimensions'].controls['Length'].touched))">
+                                <span class="text-danger">Only numbers allowed</span>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Contraindications :
+                                <span class="blockquote-footer">(Internal use only)</span>
+                            </label>
+                            <div class="col-md-8">
+                                <textarea class="form-control"  [ngClass]="{'has-error':!productForm.controls['ContraindicationNote'].valid && productForm.controls['ContraindicationNote'].touched}" name="" id="" cols="30" rows="5" [formControl]="productForm.controls['ContraindicationNote']"></textarea>
+                                <span class="blockquote-footer">2000 character limit</span>
+                                <!-- <div>
+                                    <span class="text-danger">Only numbers allowed</span>
+                                </div> -->
+                            </div>
+                            <span class="col-md-4 col-form-label text-left" for=""></span>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-md-4 col-form-label" for="">Notes:
+                                <span class="blockquote-footer">(Internal use only)</span>
+                            </label>
+                            <div class="col-md-8">
+                                <textarea class="form-control" name="" id="" cols="30" rows="5" [ngClass]="{'has-error':!productForm.controls['InternalNote'].valid && productForm.controls['InternalNote'].touched}" [formControl]="productForm.controls['InternalNote']"></textarea>
+                                <span class="blockquote-footer">2000 character limit</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <a href="javascript:;" class="btn a_s_btn a_red" routerLink="/pages/products"> Cancel</a>
+            <button class="btn a_s_btn a_green ml-2" type="buttton" (click)="createProduct()">Save</button>
+        </div>
+    </div>
+    <div *ngIf="globalState.enabledDebug && productForm" class="row">
+        <div class="col-md-12">
+            <pre>{{description | json}}</pre>
+            <pre>this.productForm</pre>
+            <pre>{{productForm.value | json}}</pre>
+        </div>
+    </div>
+</section>

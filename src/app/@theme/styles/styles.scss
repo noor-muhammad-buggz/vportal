@@ -1,0 +1,51 @@
+// themes - our custom or/and out of the box themes
+@import 'themes';
+// framework component themes (styles tied to theme variables)
+@import '~@nebular/theme/styles/globals';
+@import '~@nebular/auth/styles/all';
+
+$nb-themes: nb-register-theme((
+  color-fg-highlight: #60a0d6,
+), default, default);
+$green-color: #55b380;
+$red-color: #f6516a;
+$nb-themes: nb-register-theme((
+  color-success: $green-color,
+), default, default);
+$nb-themes: nb-register-theme((
+  color-danger: $red-color,
+), default, default);
+
+
+// loading progress bar theme
+@import './pace.theme';
+// install the framework and custom global styles
+@include nb-install() {
+    // framework global styles
+    @include nb-theme-global();
+    @include nb-auth-global();
+    // loading progress bar
+    @include ngx-pace-theme();
+    //background: nb-theme(card-bg);
+};
+
+@import './variables';
+@import './a_custom';
+@import './circle';
+@import './_preloader';
+
+@include media-breakpoint-down(sm) {
+  .nb-theme-default nb-layout .layout nb-layout-header nav {
+      height: 78px;
+      padding: 15px;
+  }
+  .nb-theme-default nb-layout .layout .layout-container nb-sidebar.fixed {
+      top: 78px;
+  }
+}
+
+#toast-container > div {
+  opacity: 1 !important;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100) !important;
+  filter: alpha(opacity=100) !important;
+}

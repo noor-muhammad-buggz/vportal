@@ -1,0 +1,102 @@
+<section class="a_account_section a_section">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <!-- <div class="col-md-8">
+            <a class="a_back_link" href="javascript:;">Back</a>
+            <p>
+                <ngb-alert [dismissible]="false" type="info">
+                    Your account rep is Sally Green
+                </ngb-alert>
+            </p>
+        </div> -->
+    </div>
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <figure class="a_profile">
+                <img src="{{ (employee.User.PictureFromUser) || (employee.User.PictureFromConnection) || '' }}" alt="profile">
+                <!-- <span>AC</span> -->
+            </figure>
+            <ul class="a_list a_arrow_icon_list" *ngIf="authService.isDistributorAdmin()">
+                <li><a href="javascript:;" [routerLink]="['/pages/library-manager']">Library Manger</a></li>
+                <li><a href="javascript:;" [routerLink]="['/pages/operators']">Operators</a></li>
+            </ul>
+        </div>
+        <div *ngIf="employee"  class="col-md-8">
+            <div class="a_detail_block">
+                <div class="row a_row">
+                    <div class="col-md-6 a_p0">
+                        <span class="a_top_text">Name</span>
+                        <!-- <h2>{{ userProfile?.user_metadata?.Name }}</h2> -->
+                        <h2>{{ employee?.DistributorEmployee?.Name?.FirstName }} {{ employee?.DistributorEmployee?.Name?.LastName }}</h2>
+                    </div>
+                </div>
+                <div class="row a_row">
+                    <div class="col-md-3 a_p0 ">
+                        <span class="a_top_text">Phone Number</span>
+                        <p>{{ employee?.DistributorEmployee?.Phone }}</p>
+                    </div>
+                    <div class="col-md-5 a_p0">
+                        <span class="a_top_text">Email</span>
+                        <p>{{ employee?.User?.Email }}</p>
+                    </div>
+                </div>
+                <!-- <div class="row a_row">
+                    <div class="col-md-5 a_p0">
+                        <span class="a_top_text">State</span>
+                        <p>Georgia</p>
+                    </div>
+                    <div class="col-md-4 a_p0">
+                        <span class="a_top_text">Country </span>
+                        <p>United States</p>
+                    </div>
+                    <div class="col-md-3 a_p0">
+                        <span class="a_top_text">Zip </span>
+                        <p>United States</p>
+                    </div>
+                </div> -->
+            </div>
+            <div class="a_detail_buttons">
+                <button (click)="showVendorEditProfileModal()" class="btn a_m_btn a_lightBlue">EDIT</button>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //modal -->
+<ng-template #vendorEditProfileModal let-vendorModalClose="close" let-vendorModalDismiss="dismiss">
+    <div class="modal-header">
+        <span>Edit Account Info</span>
+        <button type="button" class="close" (click)="vendorModalDismiss('Cross click')" data-dismiss="modal" aria-label="Close"><img alt="" src="assets/images/blue-close-icon.png"></button>
+    </div>
+    <div class="modal-body">
+        <div class="a_inline_f">
+            <div class="form-group row align-items-center">
+                <label class="col-md-4 col-form-label" for="">Email</label>
+                <div class="col-md-8">
+                    <span class="a_value">{{ employee?.User?.Email }}</span>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label class="col-md-4 col-form-label" for="">First Name</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" [(ngModel)]="employeeFirstName" required [ngClass]="{'has-error':!employeeFirstName}">
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label class="col-md-4 col-form-label" for="">Last Name</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" [(ngModel)]="employeeLastName" required [ngClass]="{'has-error':!employeeLastName}">
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label class="col-md-4 col-form-label" for="">Phone</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" [(ngModel)]="employeePhone">
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <!-- <button class="btn a_s_btn a_red a_close_btn" type="button" (click)="vendorModalDismiss('Cross click')"><img class="a_left_icon" alt="" src="assets/images/close-icon.png"> Cancel</button> -->
+            <button class="btn a_s_btn a_blue" type="button" (click)="updateEmployee(vendorModalClose)" >SAVE<img alt="" class="a_right_icon" src="assets/images/right-arrow-icon.png"></button>
+        </div>
+    </div>
+</ng-template>

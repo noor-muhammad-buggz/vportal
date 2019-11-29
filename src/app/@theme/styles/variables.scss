@@ -1,0 +1,39 @@
+// @import '../../../@theme/styles/themes';
+// :host {
+//     background: nb-theme(card-bg); // and use it
+// }
+$font-family: 'Lato',
+sans-serif;
+$open-sans: 'Open Sans',
+sans-serif;
+$resXXL: 1280px;
+$resXL: 1170px;
+$resL: 991px;
+$resM: 768px;
+$resS: 660px;
+$resXS: 500px;
+$resXXS: 435px;
+$resMin: 320px;
+$font-thin: 100;
+$font-light: 300;
+$font-normal: 400;
+$font-bold: 700;
+$font-bolder: 500;
+$font-ultraBold: 900;
+$a_small:576px;
+@mixin width($width) {
+    max-width: $width;
+    width: 100%;
+}
+// $a_images-root: '/assets/images/';
+// $a_images_root: '/assets/images/';
+
+/*colors */
+
+$a_blue: #003a70;
+$a_lightBlue: #60a0d6;
+$a_wildBlue: #7796b9;
+$a_white :#ffffff;
+$green-color: #55b380;
+$red-color: #f6516a;
+$theme: ( font-main: unquote('"Lato", sans-serif'), font-secondary: font-main, );

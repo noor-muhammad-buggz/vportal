@@ -1,0 +1,31 @@
+<section class="a_distributor_selector_section a_section">
+    <h5 class="a_h5 a_lightBlue_color">Select an account</h5>
+    <ul class="list-group a_s_list">
+        <li class="list-group-item align-items-center justify-content-between d-flex  flex-md-row flex-column" *ngFor="let account of distributorAccountsDetails">
+            <span class="mb-3 mb-md-0">{{ account?.Name }}</span>
+            <a href="javascript:;" (click)="selectAccount(account)" class="btn a_blue_btn">Select <img class="a_right_icon" src="assets/images/right-icon.png" alt=""></a>
+        </li>
+    </ul>
+    <!-- <hr class="a_hr">
+    <h5 class="a_h5">There are multiple accounts associated with this ZYTO ID. Please select one.</h5>
+    <div class="a_ds_boxes">
+        <div class="row">
+            <div class="col-md-4" *ngFor="let account of distributorAccountsDetails">
+                <div class="a_ds_box d-flex flex-column">
+                    <h4 class="a_h4">{{ account?.Name }}</h4>
+                    <div class="text-right mt-auto">
+                        <a href="javascript:;" (click)="selectAccount(account)" class="btn a_blue_btn">Select <img class="a_right_icon" src="assets/images/right-icon.png" alt=""></a>
+                    </div>
+                </div>
+            </div> -->
+    <!-- <div class="col-md-4">
+                <div class="a_ds_box d-flex flex-column">
+                    <h4 class="a_h4">Some other company</h4>
+                    <div class="text-right mt-auto">
+                        <a href="javascript:;" class="btn a_blue_btn">Select <img class="a_right_icon" src="assets/images/right-icon.png" alt=""></a>
+                    </div>
+                </div>
+            </div> -->
+    <!-- </div>
+    </div> -->
+</section>

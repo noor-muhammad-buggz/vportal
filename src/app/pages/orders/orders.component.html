@@ -1,0 +1,122 @@
+<section class="a_order_section a_section">
+    <div class="a_heading a_bb">
+        <h3>Orders</h3>
+    </div>
+    <div class="a_o_top">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-lg-4">
+                <div class="a_select mb-3 mb-lg-0">
+                    <select class="form-control" (change)="statusFilterOrder()" [(ngModel)]="this.params.statuses">
+                      <!-- <option value="Shipped,Paid,Delivered" selected>Select Status</option> -->
+                      <option *ngFor="let status of statusList" value="{{status.value}}">{{status.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <div class="form-group a_range_picker mb-3 mb-lg-0">
+                    <div class="input-group" daterangepicker [options]="options" (selected)="selectedDate($event)" (cancelDaterangepicker)="ClearDate($event)" (applyDaterangepicker)="calendarApplied($event)">
+                        <span class="form-control uneditable-input" name="daterange">
+                            {{ (params["billingPaidDateOnOrAfter"]) ? ((params["billingPaidDateOnOrAfter"] | date:'MM/dd/y') + ' -') : 'Order Date' }} {{ params["billingPaidDateBefore"] | date:'MM/dd/y' }}
+                        </span>
+                        <span class="input-group-btn">
+                            <a type="button" class="btn">
+                                <img src="assets/images/date-btn-icon.png" alt="">
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group a_o_search d-flex align-items-center ">
+                    <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="this.params.searchText" class="form-control" (keyup.enter)="searchOrders()">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="searchOrders()" type="button"><img alt="search icon" class="a_img" src="assets/images/search-icon.png"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive a_card_table">
+        <table class="table a_m_rows">
+            <thead>
+                <tr>
+                    <th class="" (click)="sortTable('BillingPaidDate')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>Order Date</span>
+                            <div *ngIf="this.params['sort'] == 'BillingPaidDate'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                    <th (click)="sortTable('Id')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>Zyto order ID</span>
+                            <div *ngIf="this.params['sort'] == 'Id'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                    <th>Vendor order ID</th>
+                    <th>Client Name</th>
+                    <th>Account Holder</th>
+                    <th (click)="sortTable('Total')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>Order Total</span>
+                            <div *ngIf="this.params['sort'] == 'Total'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                    <th>Shipped Date</th>
+                    <th (click)="sortTable('status')">
+                        <a class="d-inline-flex align-items-center a_sort">
+                            <span>Status</span>
+                            <div *ngIf="this.params['sort'] == 'status'"><i class="fa fa-sort-down ml-2" [ngClass]="{'fa-sort-up':this.params['sortDescending'] == false,'fa-sort-down':this.params['sortDescending'] == true}"></i></div>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="a_m_rows">
+                <tr *ngFor="let order of orders">
+                    <!-- <td (click)="openOrderDetailPage(order.SalesOrder.Id)"><strong class="a_c_pointer">{{ order?.SalesOrder?.Billing?.PaidDate | date:'MM/dd/y, h:mm a' }}</strong><span class="a_tb_bar"></span></td> -->
+                    <!-- <td (click)="openOrderDetailPage(order.SalesOrder.Id)"><strong class="a_c_pointer">{{ order?.SalesOrder?.Id }}</strong> <span class="a_tb_bar"></span></td> -->
+                    <td>
+                        <a class="a_c_pointer" href="javascript:;" (click)="openOrderDetailPage(order.SalesOrder.Id)">{{ order?.SalesOrder?.Billing?.PaidDate | date:'MM/dd/y, h:mm a' }}</a>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td (click)="openOrderDetailPage(order.SalesOrder.Id)">
+                        <a class="a_c_pointer" href="javascript:;" (click)="openOrderDetailPage(order.SalesOrder.Id)">{{ order?.SalesOrder?.Id }}</a>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td><strong>{{ order?.SalesOrder?.DistributorSalesOrderId }} </strong><span class="a_tb_bar"></span></td>
+                    <td><strong>{{ order?.SalesOrder?.ShipTo?.Addressee }} </strong><span class="a_tb_bar"></span></td>
+                    <td><strong>{{ order?.Account?.ContactInfo?.PersonName?.FirstName | ifNullCovertToEmptyString }} {{ order?.Account?.ContactInfo?.PersonName?.LastName }}</strong><span class="a_tb_bar"></span></td>
+                    <td><strong>{{ order?.SalesOrder?.Total | currency }}</strong><span class="a_tb_bar"></span></td>
+                    <td><strong>{{ order?.SalesOrder?.ShippingFulfillment?.ShippedDate | date:'MM/dd/y' }}</strong><span class="a_tb_bar"></span></td>
+                    <td [ngSwitch]="order.SalesOrder.Status">
+                        <strong *ngSwitchCase="'Shipped'">Fulfilled</strong>
+                        <strong *ngSwitchCase="'Paid'">Unfulfilled</strong>
+                        <strong *ngSwitchCase="'Delivered'">Delivered</strong>
+                        <strong *ngSwitchCase="'Created'">Partial</strong>
+                    </td>
+                </tr>
+                <tr *ngIf="!orders || orders && orders.length == 0">
+                    <td colspan="8">
+                        No results found
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="8" scope="col"></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="text-right">
+        <button *ngIf="page > 1 && this.globalState.showLoader == false" class="btn a_blue_btn" (click)="firstSalesOrders()">First</button>
+        <button [disabled]="!continueToken" class="btn a_blue_btn ml-2" (click)="nextSalesOrders()">Next</button>
+    </div>
+</section>
+
+<div *ngIf="globalState.enabledDebug && params" class="row">
+    <div class="col-md-12">
+        <pre>{{params | json}}</pre>
+        <pre>{{options | json}}</pre>
+        <pre>{{ 'continueToken: ' + continueToken  }}</pre>
+    </div>
+</div>

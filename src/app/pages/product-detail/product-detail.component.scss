@@ -1,0 +1,35 @@
+.a_pd_content {}
+.a_pd_detail {
+    font-size: 18px;
+    color: #333333;
+    p {}
+    dl {
+        dt {
+            min-width: 200px;
+            float: left;
+        }
+        dd {}
+        dd::after {
+            display: table;
+            content: '';
+            clear: both;
+        }
+    }
+}
+.a_p_profile {
+    font-size: 18px;
+    color: #333333;
+    figure {
+        border: 1px solid #333;
+        padding: 25px 10px;
+        text-align: center;
+        max-width: 200px;
+        margin: 0 auto 10px;
+        img {
+            max-width: 100%;
+        }
+    }
+    figcaption {
+        text-align: center;
+    }
+}

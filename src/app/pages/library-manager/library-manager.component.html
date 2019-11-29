@@ -1,0 +1,43 @@
+<section class="a_account_section a_section">
+    <div *ngFor="let item of libraryManagers">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+                <!-- <a class="a_back_link" href="javascript:;" [routerLink]="['/pages/account']">Back</a> -->
+                <p>
+                    <ngb-alert [dismissible]="false" type="info">
+                        Your library manager is {{ item.User.GivenName }} {{ item.User.FamilyName }}
+                    </ngb-alert>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <figure class="a_profile">
+                    <img src="{{ (item.User.PictureFromUser) || (item.User.PictureFromConnection) || '' }}" alt="profile">
+                    <!-- <span>AC</span> -->
+                </figure>
+                <span class="a_profile_name">
+                    {{ item.User.GivenName }} {{ item.User.FamilyName }}
+                </span>
+                <!-- <ul class="a_list a_arrow_icon_list">
+                    <li><a href="javascript:;">Library Manger</a></li>
+                </ul> -->
+            </div>
+            <div class="col-md-8">
+                <div class="a_detail_block">
+                    <div class="row a_row">
+                        <div class="col-md-3 a_p0 ">
+                            <span class="a_top_text">Phone Number</span>
+                            <p>{{ item?.User?.Phone }}</p>
+                        </div>
+                        <div class="col-md-5 a_p0">
+                            <span class="a_top_text">Email</span>
+                            <p>{{ item?.User?.Email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,158 @@
+.a_od_top {
+    .a_link {
+        font-size: 18px;
+        font-weight: 500;
+        display: inline-block;
+        vertical-align: top;
+        text-transform: uppercase;
+        &.a_green {
+            color: #55b380;
+        }
+        &.a_yellow {
+            color: #bf9f08;
+        }
+    }
+    .a_edit {
+        color: #f65b72;
+        font-size: 14px;
+        text-decoration: underline;
+        display: inline-block;
+        vertical-align: top;
+        font-weight: 500;
+        cursor: pointer;
+        float: right;
+    }
+    ul {
+        li {
+            color: #003a70;
+            font-size: 14px;
+            font-weight: 500;
+            word-wrap: break-word;
+            white-space: normal;
+            span {
+                width: 110px;
+                display: inline-block;
+                vertical-align: top;
+            }
+        }
+    }
+    .a_box_title {
+        color: #003a70;
+        font-size: 14px;
+    }
+    .a_box1 {}
+    .a_box {
+        border-right: 1px solid #e3e4e5;
+        padding: 0 20px;
+        margin-bottom: 20px;
+        &.a_box4 {
+            border-right-style: none;
+        }
+    }
+}
+.a_od_table {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 50px;
+    table {
+        margin-bottom: 0;
+        thead {
+            background-color: #bcdcf3;
+            tr {
+                th {
+                    color: #003a70;
+                    font-size: 20px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    border-style: none;
+                    text-align: center;
+                    &:first-child {
+                        min-width: 400px;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    color: #60a0d6;
+                    font-size: 18px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    &.a_price {
+                        text-align: center;
+                    }
+                    &:first-child {
+                        border-left-style: none;
+                        text-align: left;
+                    }
+                    &:last-child {
+                        border-right-style: none;
+                        // span {
+                        //     display: inline-block;
+                        //     min-width: 80px;
+                        //     text-align: right;
+                        //     vertical-align: top;
+                        // }
+                    }
+                    span {
+                        display: inline-block;
+                        min-width: 80px;
+                        text-align: right;
+                        vertical-align: top;
+                    }
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-width:1200px) {
+    .a_od_top {
+        .a_box {
+            padding: 0 10px;
+        }
+    }
+}
+@media only screen and (max-width:991px) {
+    .a_od_top {
+        .a_box {
+            padding: 0 10px 20px;
+            border-bottom: 1px solid #e3e4e5;
+            border-right-style: none;
+        }
+    }
+}
+@media only screen and (max-width:767px) {
+    .a_od_top {
+        .a_box {
+            padding: 0 0 10px;
+            margin-bottom: 10px;
+        }
+    }
+    .a_od_table {
+        margin-bottom: 20px;
+    }
+}
+@media only screen and (max-width:425px) {
+    .a_od_top {
+        .a_fulfilled {
+            font-size: 16px;
+        }
+        ul {
+            li {
+                font-size: 12px;
+            }
+        }
+    }
+}
+:host {
+    // input.ng-invalid,select.ng-invalid{
+    //   border: 1px solid #fa758e!important;
+    //   border-color: nb-theme(form-control-danger-border-color);
+    // }
+    .has-error {
+        border: 1px solid #fa758e!important;
+        border-color: nb-theme(form-control-danger-border-color);
+    }
+}

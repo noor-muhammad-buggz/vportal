@@ -1,0 +1,16 @@
+// @nebular theming framework
+@import '~@nebular/theme/styles/theming';
+// @nebular out of the box themes
+@import '~@nebular/theme/styles/themes';
+// which themes you what to enable (empty to enable all)
+$nb-enabled-themes: (default, cosmic);
+// app wise variables for each theme
+// $nb-themes: nb-register-theme(( sidebar-header-gap: 2rem, sidebar-header-height: initial, layout-content-width: 1400px, font-main: Roboto, font-secondary: Exo, ), default, default);
+// app wise variables for each theme
+$nb-themes: nb-register-theme(( sidebar-header-gap: 2rem, sidebar-header-height: initial, layout-content-width: 1400px, font-secondary: Exo, ), cosmic, cosmic);
+// our theme variables
+$ff-Lato: 'Lato',
+sans-serif;
+// $menu-item-padding: '1px, 10px, 1px 10px';
+// menu-item-padding:0.675rem, 1rem, 0.675rem, 0.75rem, menu-item-separator:transparent,
+$nb-themes: nb-register-theme(( header-padding:10px 25px, sidebar-width-compact:0, menu-active-font-weight:500, menu-icon-font-size:18px, menu-item-padding:11px 10px, menu-item-separator:transparent, menu-icon-active-color:#ffffff, menu-active-bg:transparent, menu-active-fg:#ffffff, menu-fg: #79bae7, menu-bg:transparent, menu-font-size:16px, sidebar-font-size:16px, sidebar-bg:#003a70, sidebar-shadow:none, sidebar-width:233px, btn-primary-bg:#003a70, link-color-hover:#003a70, link-color :#003a70, menu-icon-color:#ffffff, header-shadow: none, font-main: $ff-Lato, header-height:92px, sidebar-header-gap: 0, sidebar-header-height:0, layout-content-width: 1400px, ), default, default);

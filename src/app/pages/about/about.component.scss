@@ -1,0 +1,99 @@
+// .a_simple_card {
+//     border-style: none;
+//     .card-header {
+//         background-color: #4a73a2;
+//         color: #fff;
+//         border-radius: 0;
+//         border-width: 0 0 3px;
+//         border-style: solid;
+//         border-color: #86c0fe;
+//     }
+//     .card-body {
+//         background-color: #f3f3f5;
+//     }
+// }
+:host /deep/ {
+    .a_support_text {
+        margin-bottom: 20px;
+        p {
+            margin: 0 0 5px;
+            font-size: 16px;
+            color: #999;
+            a {
+                text-decoration: underline;
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+    .a_simple_accordion {
+        .card {
+            border-style: none;
+            box-shadow: none;
+            border-radius: 10px 10px 0 0;
+            margin-bottom: 10px;
+        }
+        .panel-open {
+            .card-header {
+                .accordion-toggle {
+                    &::before {
+                        -ms-transform: rotate(0deg);
+                        -webkit-transform: rotate(0deg);
+                        transform: rotate(0deg);
+                    }
+                }
+            }
+        }
+        .card-header {
+            border-radius: 10px 10px 0 0;
+            background-color: #bcdcf3;
+            border-bottom: 1px solid #eaeaea;
+            height: auto;
+            padding: 10px 20px;
+            cursor: pointer;
+            .accordion-toggle {
+                color: #014c8c;
+                font-size: 18px;
+                font-weight: bold;
+                position: relative;
+                padding: 0 0 0 30px;
+                display: block;
+                white-space: normal;
+                text-align: left;
+                word-break: break-word;
+                &::before {
+                    background-image: url(/assets/images/accordion-icon.png);
+                    background-repeat: no-repeat;
+                    content: '';
+                    left: 0;
+                    top: 5px;
+                    position: absolute;
+                    width: 21px;
+                    height: 12px;
+                }
+                &:focus,
+                &:hover {
+                    text-decoration: none;
+                }
+                &::before {
+                    -ms-transform: rotate(-90deg);
+                    -webkit-transform: rotate(-90deg);
+                    transform: rotate(-90deg);
+                }
+            }
+        }
+        .card-body {
+            padding: 10px 15px;
+            color: #788692;
+            font-size: 18px;
+            line-height: 22px;
+            border-bottom: 1px solid #e6e6e6;
+            border-left: 1px solid #e6e6e6;
+            border-right: 1px solid #e6e6e6;
+            ul{
+                padding-left: 20px;
+            }
+        }
+    }
+}

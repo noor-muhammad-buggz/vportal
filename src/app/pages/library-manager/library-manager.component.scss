@@ -1,0 +1,207 @@
+:host {
+    .a_account_section {
+        padding-top: 60px;
+    }
+    .a_profile {
+        margin-top: -60px;
+        width: 100%;
+        max-width: 120px;
+        height: 120px;
+        display: table;
+        border-radius: 100%;
+        overflow: hidden;
+        text-align: center;
+        margin-bottom: 10px;
+        background-color: #ccc;
+        margin-left: auto;
+        margin-right: auto;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        span {
+            display: table-cell;
+            vertical-align: middle;
+            width: 100%;
+            height: 100%;
+            background-color: #4cad77;
+            font-size: 95px;
+            font-weight: bold;
+            color: #fff;
+        }
+    }
+    .a_profile_name{
+      color: #60a0d6;
+    }
+    &.a_inactive {
+        .a_profile {
+            span {
+                background-color: #f65b72;
+            }
+        }
+    }
+    .a_detail_block {
+        .a_row {
+            border-bottom: 1px solid #bedffa;
+            padding: 30px 0;
+            margin: 0;
+            .a_top_text {
+                font-size: 14px;
+                font-style: italic;
+                color: #60a0d6;
+                margin-bottom: 5px;
+                display: inline-block;
+                vertical-align: top;
+            }
+            h2 {
+                font-size: 30px;
+                font-weight: 600;
+                margin: 0;
+                color: #163e6f;
+                word-wrap: break-word;
+                white-space: normal;
+            }
+            p {
+                color: #003a70;
+                margin: 0;
+                font-size: 18px;
+                a {
+                    color: #003a70;
+                }
+                a:hover {
+                    color: #003a70;
+                    opacity: 0.7;
+                }
+            }
+            .btn {
+                float: right;
+                padding: 16px 55px;
+                &.a_session_btn {
+                    color: #fff;
+                    background-color: #4cad77;
+                    border-color: #4cad77;
+                }
+            }
+        }
+    }
+    .a_detail_buttons {
+        padding: 30px 0;
+        .a_active_btn {
+            background-color: #4cad77;
+        }
+        .a_deactive_btn {
+            background-color: #f65b72;
+            border-color: #f65b72;
+        }
+    }
+    .a_arrow_icon_list {
+        font-size: 18px;
+        text-transform: uppercase;
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+        li {
+            margin-bottom: 18px;
+            a {
+                color: #79bae7;
+                padding-left: 25px;
+                position: relative;
+                font-weight: bold;
+            }
+            a:hover {
+                color: #003a70;
+                text-decoration: none;
+            }
+            a:before {
+                background-image: url('/assets/images/list-icon.png');
+                background-repeat: no-repeat;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 12px;
+                height: 18px;
+                display: none;
+                content: '';
+            }
+            a:hover:before {
+                display: block;
+            }
+        }
+        li.a_active {
+            a {
+                color: #003a70;
+            }
+            a:before {
+                display: block;
+            }
+        }
+    }
+    @media screen and (max-width: 1170px) {
+        .a_lightBlue_btn {
+            min-width: 140px;
+            font-size: 16px;
+            padding: 10px;
+        }
+        .a_profile {
+            margin-top: 0;
+            width: 100%;
+            max-width: 150px;
+            height: 150px;
+            span {
+                font-size: 50px;
+            }
+        }
+        .a_detail_block {
+            .a_row {
+                h2 {
+                    font-size: 20px;
+                }
+                .btn {
+                    padding: 10px 26px;
+                    min-width: 150px;
+                    font-size: 16px;
+                    height: 40px;
+                    &.a_right_icon {
+                        img {
+                            top: 22px;
+                            right: 12px;
+                            width: 7px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 769px) {
+        .a_arrow_icon_list {
+            font-size: 16px;
+            li {
+                margin-bottom: 7px;
+                a {
+                    padding-left: 0;
+                }
+            }
+        }
+        .a_detail_block {
+            .a_row {
+                padding: 10px 0;
+                .a_p0 {
+                    padding: 5px 0;
+                }
+            }
+        }
+        .a_profile {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 20px;
+        }
+        .a_detail_buttons {
+            text-align: center;
+        }
+        .a_lightBlue_btn {
+            min-width: auto;
+            font-size: 16px;
+            padding: 6px 20px;
+        }
+    }
+}

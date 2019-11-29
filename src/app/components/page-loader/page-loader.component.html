@@ -1,0 +1,10 @@
+<div [ngClass]="{'page-loader-overlay': showOverlay}">
+    <ng-container *ngIf="showOverlay; else elsePageLoaderTemplate">
+        <div class="" [ngClass]="{'loader-3': showOverlay,'loader': !showOverlay}"></div>
+    </ng-container>
+    <ng-template #elsePageLoaderTemplate>
+        <div class="loader-container adjust">
+            <div class="" [ngClass]="{'loader-3': showOverlay,'loader': !showOverlay}"></div>
+        </div>
+    </ng-template>
+</div>

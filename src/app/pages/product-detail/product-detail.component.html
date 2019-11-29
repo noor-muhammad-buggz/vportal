@@ -1,0 +1,81 @@
+<div id="a-print-screen2" class="a_top_controls d-flex justify-content-between justify-content-md-start">
+    <ul class="a_list a_back_next_control">
+        <li>
+            <a class="a_back" [ngClass]="{'a_disable':(!pagination || (pagination && !pagination.PreviousDistributorProductId))}" href="javascript:;" (click)="routeToNewLink(pagination && pagination.PreviousDistributorProductId)">Back</a>
+        </li>
+        <li class="">
+            <a class="a_next" [ngClass]="{'a_disable':(!pagination || (pagination && !pagination.NextDistributorProductId))}" href="javascript:;" (click)="routeToNewLink(pagination && pagination.NextDistributorProductId)">Next</a>
+        </li>
+    </ul>
+</div>
+<section class="a_section a_product_detail_section">
+    <div class="a_heading a_bb">
+        <h3>Product Details</h3>
+    </div>
+    <div *ngIf="product" class="text-right mb-3 mb-md-4">
+        <div class="a_s_wrapper d-inline-flex align-items-center">
+            <div class="a_w_label">In Stock</div>
+            <label class="a_switch">
+                <input type="checkbox" [checked]="product?.InStock" [attr.checked]="product?.InStock ? 'checked' : null" [attr.selected]="product?.InStock ? 'selected' : null" (change)="updateProductStockStatus(stock.checked)" #stock>
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div *ngIf="product" class="a_pd_content">
+        <div class="row mb-3 mb-md-4">
+            <div class="col-md-3 ">
+                <div class="a_p_profile">
+                    <figure>
+                        <img [src]="(product.Image)? product.Image.Html.Url : 'assets/images/product-icon.png'" alt="product">
+                    </figure>
+                    <figcaption>Sku {{ product?.Id }}</figcaption>
+                    <h5 class="a_h5 a_red_color text-center mb-0 pt-2" *ngIf="product.Archived">Discontinued</h5>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="a_pd_detail">
+                    <h3 class="a_h3">{{ product?.Name }}</h3>
+                    <p>Product Description: <span [innerHTML]="product.Description"></span></p>
+                    <dl class="clearfix">
+                        <dt>MSRP:</dt>
+                        <dd>{{ product?.SalesPrice?.Amount | currency }}</dd>
+                        <dt>Wholesale Price:</dt>
+                        <dd>{{ product?.PurchaseInfo?.Price?.Amount | currency }}</dd>
+                        <dt>Dose Type:</dt>
+                        <dd>{{ product?.Dosage?.Type }}</dd>
+                        <dt *ngIf="product.Dosage">Dose Amount:</dt>
+                        <dd *ngIf="product.Dosage">{{ (product?.Dosage?.Amount?.Numerator && product?.Dosage?.Amount?.Denominator) ? (product?.Dosage?.Amount?.Numerator/product?.Dosage?.Amount?.Denominator) : product?.Dosage?.Amount?.Numerator }}</dd>
+                        <dt>Time Per Day:</dt>
+                        <dd>{{ product?.Dosage?.TimesPerDay }}</dd>
+                        <dt>Weight:</dt>
+                        <dd>{{ product?.Weight }}</dd>
+                        <dt *ngIf="product.ClientRestrictions">Age - Min/Max:</dt>
+                        <dd *ngIf="product.ClientRestrictions">{{ product?.ClientRestrictions?.AgeRestriction?.MinimumAllowedAge }}{{ (product?.ClientRestrictions?.AgeRestriction?.MaximumAllowedAge)? (' / ' + product?.ClientRestrictions?.AgeRestriction?.MaximumAllowedAge) : '' }}</dd>
+                        <dt *ngIf="product.ClientRestrictions">Gender:</dt>
+                        <dd *ngIf="product.ClientRestrictions">{{ (['MalesOnly', 'FemalesOnly'].indexOf(product?.ClientRestrictions?.GenderRestriction) >= 0) ? (product?.ClientRestrictions?.GenderRestriction) : 'Gender Neutral' }}</dd>
+                        <dt>Dimensions:</dt>
+                        <dd>{{ (product?.Dimensions?.Length)? (product?.Dimensions?.Length + '"') : '' }}{{ (product?.Dimensions?.Width)? (' x ' + product?.Dimensions?.Width + '"') : '' }}{{ (product?.Dimensions?.Height)? (' x ' + product?.Dimensions?.Height
+                            + '"') : '' }}</dd>
+                        <dt>Contraindications :</dt>
+                        <dd></dd>
+                        <p>{{ product?.ContraindicationNote }}</p>
+                        <dt>Notes:</dt>
+                        <dd></dd>
+                    </dl>
+                    <p>{{ product?.InternalNote }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <a href="javascript:;" routerLink="/pages/products" class="btn a_blue_btn"><img class="a_left_icon" src="assets/images/left-icon.png" alt=""> Back</a>
+            <button [routerLink]="['/pages/products',productId ,'update']" class="btn a_green_btn ml-2" type="buttton">Update Product</button>
+        </div>
+    </div>
+    <div *ngIf="globalState.enabledDebug && product" class="row">
+        <div class="col-md-12">
+            <!-- <pre>{{order | json}}</pre> -->
+            <pre>this.product</pre>
+            <pre>{{product | json}}</pre>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,17 @@
+<!-- <ngb-alert>
+    <strong>No Authorize!</strong> You don't have permission to access Vendor Portal.
+</ngb-alert> -->
+<nb-layout center>
+  <nb-layout-header fixed>
+    <ngx-header></ngx-header>
+  </nb-layout-header>
+  <nb-layout-column>
+    <nb-card size="" class="">
+      <nb-card-body>
+        <ngb-alert [type]="'danger'">
+          <strong>Un-Authorize!</strong> You don't have permission to access Vendor Portal.
+        </ngb-alert>
+      </nb-card-body>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>

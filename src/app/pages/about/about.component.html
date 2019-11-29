@@ -1,0 +1,52 @@
+<section *ngIf="aboutData else noData" class="a_section a_about_section">
+    <!-- <div class="a_heading">
+        <h3>Current Updates</h3>
+    </div> -->
+    <!-- <div class="card a_simple_card">
+        <div class="card-header">
+            Release notes - {{ aboutData.Name }}
+        </div>
+        <div class="card-body" [innerHTML]="aboutData.ReleaseNotes"> -->
+    <!-- {{ aboutData.ReleaseNotes }} -->
+    <!-- </div>
+    </div> -->
+    <h3 class="a_h3 mb-2">Support</h3>
+    <div class="a_support_text pl-md-4 ">
+        <p>For software support or to provide feedback about ZYTO Insights, send email to: <a href="javascript:;">insights@ZYTO.com</a></p>
+        <p>or call 801-224-7199</p>
+        <p><em>Monday-Thursday: 7 a.m. to 5 p.m. (Mountain Time -MT)</em></p>
+    </div>
+    <h3 class="a_h3 mb-2">Software Updates</h3>
+    <div class="about-results" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [infiniteScrollContainer]="'.scrollable-container'" [fromRoot]="true">
+        <accordion class="a_simple_accordion" *ngFor="let about of aboutData; let i = index">
+            <accordion-group [isOpen]="isFirstOpen">
+                <div accordion-heading class="d-flex justify-content-between align-items-center">
+                    <span>Release {{about.Id}}</span>
+                    <span>{{about.ReleaseDate | date:'MM/dd/yyyy'}}</span>
+                </div>
+                <div [innerHTML]="about.ReleaseNotes"></div>
+            </accordion-group>
+        </accordion>
+    </div>
+</section>
+<section>
+    <div *ngIf="globalState.enabledDebug && aboutData" class="row">
+        <div class="col-md-12">
+            <pre>{{aboutData | json}}</pre>
+        </div>
+    </div>
+</section>
+<ng-template #noData>
+    <h3 class="a_h3 mb-2">Support</h3>
+    <div class="a_support_text pl-md-4 ">
+        <p>For software support or to provide feedback about ZYTO Insights, send email to: <a href="javascript:;">insights@ZYTO.com</a></p>
+        <p>or call 801-224-7199</p>
+        <p><em>Monday-Thursday: 7 a.m. to 5 p.m. (Mountain Time -MT)</em></p>
+    </div>
+    <h3 class="a_h3 mb-2">Software Updates</h3>
+    <div class="card a_simple_card">
+        <div class="card-header">
+            No updates
+        </div>
+    </div>
+</ng-template>

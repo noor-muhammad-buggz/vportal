@@ -1,0 +1,81 @@
+<section class="a_section a_dashbord_section">
+    <div class="a_heading a_bb">
+        <h3>Dashboard</h3>
+    </div>
+    <h3 *ngIf="dashboardData" class="a_h3">Orders</h3>
+    <div *ngIf="dashboardData && dashboardData.Data.SalesOrders" class="row">
+        <div *ngIf="authService.isDistributorAdmin()"  class="col-md-9">
+            <div class="table-responsive a_card_table">
+                <table class="table">
+                    <thead class="a_fs_18">
+                        <tr>
+                            <th *ngFor="let item of dashboardData.Data.SalesOrders.Months" scope="col">{{ item.date | date:"MM" }}/{{ item.date | date:"yy" }}</th>
+                            <!-- <th scope="col">01/18</th> -->
+                            <!-- <th scope="col">02/18</th> -->
+                        </tr>
+                    </thead>
+                    <tbody class="a_fs_18">
+                        <tr>
+                            <td *ngFor="let item of dashboardData.Data.SalesOrders.Months"  class="a_bb">
+                                <strong>{{ item?.TotalSum | currency }}</strong>
+                                <span class="a_tb_bar"></span>
+                            </td>
+                            <!-- <td class="a_bb">
+                                <strong>{{ item?.TotalSum | currency }}</strong>
+                                <span class="a_tb_bar"></span>
+                            </td>
+                            <td class="a_bb">
+                                <strong>{{ item?.TotalSum | currency }}</strong>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="table-responsive a_card_table">
+                <table class="table">
+                    <thead class="a_fs_18">
+                        <tr>
+                            <th class="a_single_th" scope="col">Unfulfilled</th>
+                        </tr>
+                    </thead>
+                    <tbody class="a_fs_18">
+                        <tr>
+                            <td class="a_bb">
+                                <strong><a [routerLink]="['/pages/orders']" [queryParams]="{ status:'Unfulfilled'}">{{ dashboardData?.Data?.SalesOrders?.PendingCount }}</a></strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <h3 *ngIf="dashboardData" class="a_h3">Products</h3>
+    <div *ngIf="dashboardData" class="table-responsive a_card_table">
+        <table class="table">
+            <thead class="a_fs_18">
+                <tr>
+                    <th scope="col">Total Products</th>
+                    <th scope="col">In Stock</th>
+                    <th scope="col">Out of Stock</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="dashboardData.Data.Products"  class="a_fs_18">
+                <tr>
+                    <td class="a_bb">
+                        <strong><a [routerLink]="['/pages/products']">{{ dashboardData?.Data?.Products?.Count }}</a></strong>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td class="a_bb">
+                        <strong><a [routerLink]="['/pages/products']" [queryParams]="{ instock:true}">{{ dashboardData?.Data?.Products?.InStockTrueCount }}</a></strong>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td class="a_bb">
+                        <strong><a [routerLink]="['/pages/products']" [queryParams]="{ instock:false}">{{ dashboardData?.Data?.Products?.InStockFalseCount }}</a></strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

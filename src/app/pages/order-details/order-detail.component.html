@@ -1,0 +1,322 @@
+<div id="a-print-screen2" class="a_top_controls d-flex justify-content-between justify-content-md-start">
+    <ul class="a_list a_back_next_control">
+        <li>
+            <a class="a_back" [ngClass]="{'a_disable':(!pagination || (pagination && !pagination.PreviousSalesOrderId))}" href="javascript:;" (click)="routeToNewLink(pagination && pagination.PreviousSalesOrderId)">Back</a>
+        </li>
+        <li class="">
+            <a class="a_next" [ngClass]="{'a_disable':(!pagination || (pagination && !pagination.NextSalesOrderId))}" href="javascript:;" (click)="routeToNewLink(pagination && pagination.NextSalesOrderId)">Next</a>
+        </li>
+    </ul>
+    <div class="a_print">
+        <a href="javascript:;" (click)="openPdf()" class="a_print_link">PRINT</a>
+    </div>
+</div>
+<section *ngIf="order" class="a_order_detail_section a_section">
+    <img id="order-distributor-image" [src]="this.order.Distributor.Image.Html.Url" style="display:none">
+    <div class="a_heading a_bb">
+        <h3>Order Detail</h3>
+    </div>
+    <div class="a_od_top">
+        <div class="row m-0 align-items-start">
+            <div class="col-lg-4 p-0">
+                <div class="d-flex a_box1 justify-content-between a_box">
+                    <div class="" [ngSwitch]="order.SalesOrder.Status">
+                        <a *ngSwitchCase="'Shipped'" class="a_link a_green">Fulfilled</a>
+                        <a *ngSwitchCase="'Paid'" class="a_link a_yellow">Unfulfilled</a>
+                        <a *ngSwitchCase="'Delivered'" class="a_link a_yellow">Delivered</a>
+                        <a *ngSwitchCase="'Created'" class="a_link a_yellow">Partial</a>
+                    </div>
+                    <div>
+                        <strong class="a_box_title">Vendor</strong>
+                        <ul class="a_list">
+                            <li>{{ order.Distributor.Name }}</li>
+                            <li *ngIf="order.Distributor.Warehouses[0]">{{ order?.Distributor?.Warehouses[0]?.Address?.Line1}}{{ (order?.Distributor?.Warehouses[0]?.Address?.Line2)? (', ' + order?.Distributor?.Warehouses[0]?.Address?.Line2) : ''}}</li>
+                            <li *ngIf="order.Distributor.Warehouses[0]">{{ order?.Distributor?.Warehouses[0]?.Address?.City}}{{ (order?.Distributor?.Warehouses[0]?.Address?.Province)? (', ' + order?.Distributor?.Warehouses[0]?.Address?.Province) : ''}}{{ (order?.Distributor?.Warehouses[0]?.Address?.PostalCode)?
+                                (' ' + order?.Distributor?.Warehouses[0]?.Address?.PostalCode) : ''}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 p-0">
+                <div class="a_box">
+                    <strong class="a_box_title">Account Holder</strong>
+                    <ul class="a_list">
+                        <li>{{ order?.Account?.Name }}</li>
+                        <li>{{ order?.Account?.ContactInfo?.Address?.Line1}}{{ (order?.Account?.ContactInfo?.Address?.Line2)? (', ' + order?.Account?.ContactInfo?.Address?.Line2) : ''}}</li>
+                        <li>{{ order?.Account?.ContactInfo?.Address?.City}}{{ (order?.Account?.ContactInfo?.Address?.Province)? (', ' + order?.Account?.ContactInfo?.Address?.Province) : ''}}{{ (order?.Account?.ContactInfo?.Address?.PostalCode)? (' ' + order?.Account?.ContactInfo?.Address?.PostalCode)
+                            : ''}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 p-0">
+                <div class="a_box">
+                    <strong class="a_box_title">Ship To</strong>
+                    <ul class="a_list">
+                        <li>{{ order?.SalesOrder?.ShipTo?.Addressee}}</li>
+                        <li>{{ order?.SalesOrder?.ShipTo?.Address?.Line1}}{{ (order?.SalesOrder?.ShipTo?.Address?.Line2)? (', ' + order?.SalesOrder?.ShipTo?.Address?.Line2) : ''}}</li>
+                        <li>{{ order?.SalesOrder?.ShipTo?.Address?.City}}{{ (order?.SalesOrder?.ShipTo?.Address?.Province)? (', ' + order?.SalesOrder?.ShipTo?.Address?.Province) : ''}}{{ (order?.SalesOrder?.ShipTo?.Address?.PostalCode)? (' ' + order?.SalesOrder?.ShipTo?.Address?.PostalCode)
+                            : ''}}</li>
+                        <li *ngIf="order?.SalesOrder?.ShipTo?.Email">{{ order?.SalesOrder?.ShipTo?.Email}}</li>
+                        <li *ngIf="order?.SalesOrder?.ShipTo?.Phone">{{ order?.SalesOrder?.ShipTo?.Phone}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 p-0">
+                <div class="a_box4  a_box align-items-center">
+                    <div>
+                        <strong class="a_box_title">&nbsp;</strong>
+                        <ul class="a_list">
+                            <li>
+                                <span>ZYTO Order ID:</span> {{ order?.SalesOrder?.Id }}</li>
+                            <li>
+                                <span>Vendor Order ID:</span> {{ order?.SalesOrder?.DistributorSalesOrderId }}
+                                <a (click)="showVendorOrderEditModal()" class="a_edit ml-3">edit</a>
+                            </li>
+                            <li>
+                                <span>Order Date:</span> {{ order?.SalesOrder?.Billing?.PaidDate | date:'MM/dd/y' }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive a_od_table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">item</th>
+                    <th scope="col">quantity</th>
+                    <th scope="col">price</th>
+                    <th scope="col">total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of order.SalesOrder.LineItems">
+                    <td>{{ item.Name }}</td>
+                    <td>{{ item.Quantity }}</td>
+                    <td class="a_price">
+                        <span>{{ item.Price | currency }}</span>
+                    </td>
+                    <td class="a_price">
+                        <span>{{ (item.Quantity * item.Price) | currency }}</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                    <td class="a_br_none">Subtotal</td>
+                    <td class="a_bl_none a_price">
+                        <span>{{ order.SalesOrder.Subtotal | currency }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td class="a_br_none">Tax</td>
+                    <td class="a_bl_none a_price">
+                        <span>{{ order.SalesOrder.Taxes | currency }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td class="a_br_none">Shipping</td>
+                    <td class="a_bl_none a_price">
+                        <span>{{ order.SalesOrder.ShippingCost | currency }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td class="a_br_none">Handling</td>
+                    <td class="a_bl_none a_price">
+                        <span>{{ order.SalesOrder.HandlingFee | currency }}</span>
+                    </td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th colspan="2" scope="col"></th>
+                    <th scope="col">total</th>
+                    <th scope="col">{{ order.SalesOrder.Total | currency }}</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div *ngIf="order.SalesOrder.ShippingFulfillment.Packages" class="a_heading a_bt">
+        <h3>Fulfillment</h3>
+    </div>
+    <div *ngIf="order.SalesOrder.ShippingFulfillment.Packages" class="table-responsive a_card_table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Shipped DATE</th>
+                    <th scope="col">Tracking number</th>
+                    <th scope="col">shipping method</th>
+                    <th scope="col">Memo (internal use only)</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let package of order.SalesOrder.ShippingFulfillment.Packages">
+                    <td>
+                        <strong>{{ package.ShippedDate | date:'MM/dd/y' }}</strong>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td>
+                        <strong>{{ package.TrackingNumber }}</strong>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td>
+                        <strong>{{ package.ShippingMethod }}</strong>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td>
+                        <strong>{{ package.Memo }}</strong>
+                        <span class="a_tb_bar"></span>
+                    </td>
+                    <td>
+                        <span class="d-flex justify-content-between align-items-center">
+                            <strong class="ml-auto">{{ (package.IsDelivered)? 'Delivered' : 'Not Delivered'}}</strong>
+                            <ul class="a_list d-inline-flex align-items-center ml-auto">
+                                <li class="d-inline-flex align-items-center">
+                                    <a href="javascript:;" (click)="editFulfillment(package)" *ngIf="package.Id !== fulfillmentID">
+                                        <img src="assets/images/edit-icon.png">
+                                    </a>
+                                    <a href="javascript:;" *ngIf="package.Id == fulfillmentID" class="a_disable">
+                                        <img src="assets/images/edit-icon.png">
+                                    </a>
+                                </li>
+                                <li class="d-inline-flex align-items-center">
+                                    <swal #deleteSwal title="Delete Fullfillment" text="Are you sure you want to delete it?" type="question" [showCancelButton]="true"
+                                        [focusConfirm]="false" [focusCancel]="false" (confirm)="removeFulfillment(package.Id)">
+                                    </swal>
+                                    <a href="javascript:;" [swal]="deleteSwal">
+                                        <img src="assets/images/blue-close-icon.png">
+                                    </a>
+                                </li>
+                            </ul>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="5" scope="col"></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="card" id="scrollTarget"></div>
+    <div *ngIf="order.SalesOrder.ShippingFulfillment.UnfilfilledItems" class="card a_card_block" id="scrollTarget">
+        <div class="card-header align-items-center d-flex">
+            <h4>{{ (this.editMode)? 'Edit' : 'Add' }} FULFILLMENT</h4>
+        </div>
+        <div class="card-body">
+            <form *ngIf="fulfillmentForm" [formGroup]="fulfillmentForm" (ngSubmit)="onSubmit(fulfillmentForm.value)" class="">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="a_left_items">
+                            <div *ngFor="let item of order.SalesOrder.ShippingFulfillment.UnfilfilledItems; let i = index" class="a_item">
+                                <div class="form-group row align-items-center">
+                                    <label class="col-md-8 col-form-label" for="item-{{i}}">{{ item.Name }}</label>
+                                    <div class="col-md-4">
+                                        <div class="a_select" *ngIf="fulfillmentForm.controls['Items']">
+                                            <select class="form-control" id="item-{{i}}" [formControl]="fulfillmentForm.controls['Items'].controls[i].controls['Quantity']" [ngClass]="{'has-error':!fulfillmentForm.controls['Items'].controls[i].controls['Quantity'].valid && fulfillmentForm.controls['Items'].controls[i].controls['Quantity'].touched}">
+                                                <option *ngFor="let item of item.numbers" value="{{ item }}">{{ item }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="a_main">
+                            <div class="form-group row align-items-center">
+                                <label class="col-md-6 col-form-label" for="">SHIPPED DATE</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" #dateControl daterangepicker [options]="options" (selected)="selectedDate($event,dateControl)" (cancelDaterangepicker)="ClearDate($event)" (applyDaterangepicker)="calendarApplied($event)" [ngClass]="{'has-error':!fulfillmentForm.controls['ShippedDate'].valid && fulfillmentForm.controls['ShippedDate'].touched}">
+                                </div>
+                            </div>
+                            <div class="form-group row align-items-center">
+                                <label class="col-md-6 col-form-label" for="">SHIPING METHOD</label>
+                                <div class="col-md-6">
+                                    <div class="a_select">
+                                        <select class="form-control" id="" [formControl]="fulfillmentForm.controls['ShippingMethod']" [ngClass]="{'has-error':!fulfillmentForm.controls['ShippingMethod'].valid && fulfillmentForm.controls['ShippingMethod'].touched}">
+                                            <option *ngFor="let item of order.Distributor.Warehouses[0].ShippingMethods" value="{{ item }}">{{ item }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row align-items-center">
+                                <label class="col-md-6 col-form-label" for="">TRACKING NUMBER</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" [formControl]="fulfillmentForm.controls['TrackingNumber']" [ngClass]="{'has-error':!fulfillmentForm.controls['TrackingNumber'].valid && fulfillmentForm.controls['TrackingNumber'].touched}">
+                                </div>
+                            </div>
+                            <div class="form-group row align-items-center">
+                                <label class="col-md-6 col-form-label" for="">MEMO (INTERNAL USE ONLY)</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" [formControl]="fulfillmentForm.controls['Memo']" [ngClass]="{'has-error':!fulfillmentForm.controls['Memo'].valid && fulfillmentForm.controls['Memo'].touched}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer"></div>
+    </div>
+    <div *ngIf="order.SalesOrder.ShippingFulfillment.UnfilfilledItems" class="text-right">
+        <button *ngIf="editMode" class="btn a_m_btn a_red a_right_close" type="buttton" (click)="resetFulfillment()">cancel
+            <img alt="" src="assets/images/close-icon.png">
+        </button>
+        <button class="btn a_m_btn a_right_icon ml-2" type="buttton" (click)="saveFulfillment()">Save
+            <img alt="" src="assets/images/right-arrow-icon.png">
+        </button>
+    </div>
+    <div *ngIf="globalState.enabledDebug && order" class="row">
+        <div class="col-md-12">
+            <!-- <pre>{{order | json}}</pre> -->
+            <pre>this.itemsBackup</pre>
+            <pre>{{itemsBackup | json}}</pre>
+
+            <!-- <pre>{{order.SalesOrder.ShippingFulfillment.Packages | json}}</pre> -->
+            <pre>{{pagination | json}}</pre>
+            <pre>order.SalesOrder.ShippingFulfillment.Packages</pre>
+            <pre>{{order.SalesOrder.ShippingFulfillment.Packages | json}}</pre>
+            <pre>order.SalesOrder.ShippingFulfillment.UnfilfilledItems</pre>
+            <pre>{{order.SalesOrder.ShippingFulfillment.UnfilfilledItems | json}}</pre>
+            <pre>fulfillmentForm.value</pre>
+            <pre>{{fulfillmentForm.value | json}}</pre>
+        </div>
+    </div>
+</section>
+
+<!-- //modal -->
+<ng-template #vendorOrderEditModal let-vendorModalClose="close" let-vendorModalDismiss="dismiss">
+    <div class="modal-header">
+        <button type="button" class="close" (click)="vendorModalDismiss('Cross click')" data-dismiss="modal" aria-label="Close">
+            <img alt="" src="assets/images/blue-close-icon.png">
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="a_inline_f">
+            <div class="form-group row align-items-center">
+                <label class="col-md-4 col-form-label" for="">Vendor Order ID</label>
+                <div class="col-md-8">
+                    <input [(ngModel)]="order.SalesOrder.DistributorSalesOrderId" type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <a href="javascript:;" (click)="updateDistributorSaleOrderId(vendorModalClose)" class="btn a_blue_btn" type="button">Save
+                <!-- <img alt="" src="assets/images/right-arrow-icon.png"> -->
+                <img alt="" class="a_right_icon" src="assets/images/right-arrow-icon.png">
+            </a>
+        </div>
+    </div>
+</ng-template>
+<!-- <pre>{{closeResult}}</pre> -->
+
+<div id="a-print-screen" class="printed-div a_print_body">
+
+</div>
