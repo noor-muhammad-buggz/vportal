@@ -55,7 +55,7 @@
         "@toverux/ngx-sweetalert2": "^3.4.0",
         "angular2-toaster": "4.0.1",
         "applicationinsights-js": "^1.0.15",
-        "auth0-js": "^8.8.0",
+        "auth0-js": "^9.13.2",
         "bootstrap": "4.0.0-beta.2",
         "ckeditor": "4.7.3",
         "classlist.js": "1.1.20150312",
